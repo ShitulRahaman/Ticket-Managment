@@ -1,40 +1,29 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
-
-import com.torpedolabs.ticketbackend.ticket.Utility.ProcessStatus;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "TICKET")
-public class Ticket implements Serializable {
-
+@Table(name = "LOCATION")
+public class Location implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String serial;
-    private String comment;
-    private ProcessStatus status;
-    private Long totalFare;
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Seat> seats;
+    private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "arrangement_id", referencedColumnName = "id")
-    private Arrangement arrangement;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @UpdateTimestamp
     private Timestamp lastUpdatedStamp;
