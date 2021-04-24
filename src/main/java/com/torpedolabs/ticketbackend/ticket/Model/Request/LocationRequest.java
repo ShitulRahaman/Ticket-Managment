@@ -10,6 +10,9 @@ import lombok.ToString;
 public class LocationRequest {
     private Long id;
     private String name;
-
-    private AddressRequest address;
+    private String area;
+    private String street;
+    private String city;
+    private String country;
+    private boolean active;
 }

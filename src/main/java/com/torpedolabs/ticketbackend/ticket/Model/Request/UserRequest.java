@@ -14,4 +14,5 @@ public class UserRequest {
     private String email;
     private String mobile;
     private boolean active;
+    private Long role;
 }

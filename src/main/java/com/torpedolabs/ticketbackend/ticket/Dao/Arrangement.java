@@ -1,5 +1,7 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
+import com.torpedolabs.ticketbackend.ticket.Model.Request.ArrangementRequest;
+import com.torpedolabs.ticketbackend.ticket.Utility.LocalDateTimeConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,11 +28,11 @@ public class Arrangement implements Serializable {
     private String name;
     private String description;
     private Integer totalSeats;
-    private Integer availableSeats;
     private Long fare;
     private LocalDateTime reportingDateTime;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
+    private boolean active;
 
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -51,4 +53,15 @@ public class Arrangement implements Serializable {
     private Timestamp createdStamp;
     @CreationTimestamp
     private Timestamp createdTxStamp;
+
+
+    public Arrangement(ArrangementRequest arrangementRequest){
+        this.name=arrangementRequest.getName();
+        this.description=arrangementRequest.getDescription();
+        this.totalSeats=arrangementRequest.getTotalSeats();
+        this.reportingDateTime= LocalDateTimeConverter.DateTime(arrangementRequest.getReportingDateTime());
+        this.startDateTime= LocalDateTimeConverter.DateTime(arrangementRequest.getStartDateTime());
+        this.endDateTime= LocalDateTimeConverter.DateTime(arrangementRequest.getEndDateTime());
+        this.active=true;
+    }
 }

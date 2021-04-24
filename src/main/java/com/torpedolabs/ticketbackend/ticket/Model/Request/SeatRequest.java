@@ -13,4 +13,6 @@ public class SeatRequest {
     private String name;
     private String description;
     private Integer status;
+    private Long fare;
+    private boolean active;
 }

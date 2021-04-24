@@ -11,6 +11,8 @@ import java.util.List;
 @ToString
 public class TicketRequest {
     private Long id;
+    private String serial;
+    private String comment;
     private Integer status;
     private Long totalFare;
     private List<Long> seats;

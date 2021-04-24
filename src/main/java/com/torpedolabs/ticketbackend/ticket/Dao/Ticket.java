@@ -1,6 +1,7 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
 
+import com.torpedolabs.ticketbackend.ticket.Model.Request.TicketRequest;
 import com.torpedolabs.ticketbackend.ticket.Utility.ProcessStatus;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,7 @@ public class Ticket implements Serializable {
     private String comment;
     private ProcessStatus status;
     private Long totalFare;
+
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Seat> seats;
 
@@ -44,5 +46,13 @@ public class Ticket implements Serializable {
     private Timestamp createdStamp;
     @CreationTimestamp
     private Timestamp createdTxStamp;
+
+
+    public Ticket(TicketRequest ticketRequest){
+        this.serial=ticketRequest.getSerial();
+        this.comment=ticketRequest.getComment();
+        this.status=ProcessStatus.SOLD;
+        this.totalFare=ticketRequest.getTotalFare();
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
+import com.torpedolabs.ticketbackend.ticket.Model.Request.TicketTypeRequest;
 import com.torpedolabs.ticketbackend.ticket.Utility.Program;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class TicketType implements Serializable {
     private String name;
     private Program program;
     private String description;
+    private boolean active;
 
     @UpdateTimestamp
     private Timestamp lastUpdatedStamp;
@@ -32,4 +34,12 @@ public class TicketType implements Serializable {
     private Timestamp createdStamp;
     @CreationTimestamp
     private Timestamp createdTxStamp;
+
+    public TicketType(TicketTypeRequest ticketTypeRequest){
+         this.name=ticketTypeRequest.getName();
+         this.program=Program.TRAVELS.getProgram(ticketTypeRequest.getProgram());
+         this.description=ticketTypeRequest.getDescription();
+         this.active=true;
+
+    }
 }

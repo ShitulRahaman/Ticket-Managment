@@ -1,10 +1,12 @@
 package com.torpedolabs.ticketbackend.ticket.Controller;
 
 
+import com.torpedolabs.ticketbackend.ticket.Dao.Ticket;
 import com.torpedolabs.ticketbackend.ticket.Model.Request.TicketRequest;
 import com.torpedolabs.ticketbackend.ticket.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,27 +17,23 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<?> Create(@RequestBody TicketRequest ticketRequest){
-        // System.out.println(arrangementRequest);
-        return  ResponseEntity.ok().build();
+        return ticketService.Save(ticketRequest);
     }
     @GetMapping
     public ResponseEntity<?> Gets(){
-        /// System.out.println("GetAll");
-        return  ResponseEntity.ok().build();
+        return ticketService.Gets();
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> Get(@PathVariable Long id){
-        System.out.println("Get id"+id);
-        return  ResponseEntity.ok().build();
+        return  ticketService.Get(id);
     }
     @PutMapping
     public ResponseEntity<?> Update(@RequestBody TicketRequest ticketRequest){
-        // System.out.println(arrangementRequest+"Put id");
-        return  ResponseEntity.ok().build();
+        return  ticketService.Update(ticketRequest);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> Delete(@PathVariable Long id){
-        // System.out.println("Delete id"+id);
-        return  ResponseEntity.ok().build();
+        return ticketService.Delete(id);
     }
 }

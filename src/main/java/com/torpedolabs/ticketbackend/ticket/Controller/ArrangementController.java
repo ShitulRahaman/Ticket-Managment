@@ -16,8 +16,7 @@ public class ArrangementController {
 
     @PostMapping
     public ResponseEntity<?> Create(@RequestBody ArrangementRequest arrangementRequest) {
-        arrangementService.Save(arrangementRequest);
-        return ResponseEntity.ok().build();
+        return arrangementService.Save(arrangementRequest);
     }
 
     @GetMapping
@@ -27,19 +26,17 @@ public class ArrangementController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> Get(@PathVariable Long id) {
-        return ResponseEntity.of(arrangementService.Get(id));
+        return arrangementService.Get(id);
     }
 
     @PutMapping
     public ResponseEntity<?> Update(@RequestBody ArrangementRequest arrangementRequest) {
-        arrangementService.Update(arrangementRequest);
-        return ResponseEntity.ok().build();
+        return arrangementService.Update(arrangementRequest);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> Delete(@PathVariable Long id) {
-        arrangementService.Delete(id);
-        return ResponseEntity.ok().build();
+        return arrangementService.Delete(id);
     }
 
 }

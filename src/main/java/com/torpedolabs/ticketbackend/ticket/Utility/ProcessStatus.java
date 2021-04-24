@@ -9,6 +9,23 @@ public enum ProcessStatus {
 
     public final Integer value;
 
+    public ProcessStatus getProcessStatus(Integer value)
+    {
+        switch (value){
+            case 0:
+                return OPEN;
+            case 1:
+                return ON_PROCESSING;
+            case 2:
+                return ON_BOOKED;
+            case 3:
+                return SOLD;
+            case 4:
+                return REFUND;
+
+        }
+        return OPEN;
+    }
     private ProcessStatus(Integer value) {
         this.value = value;
     }

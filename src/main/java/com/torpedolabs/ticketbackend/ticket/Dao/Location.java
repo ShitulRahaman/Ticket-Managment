@@ -1,5 +1,6 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
+import com.torpedolabs.ticketbackend.ticket.Model.Request.LocationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,10 +21,11 @@ public class Location implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
+    private String area;
+    private String street;
+    private String city;
+    private String country;
+    private boolean active;
 
     @UpdateTimestamp
     private Timestamp lastUpdatedStamp;
@@ -33,5 +35,15 @@ public class Location implements Serializable {
     private Timestamp createdStamp;
     @CreationTimestamp
     private Timestamp createdTxStamp;
+
+    public Location(LocationRequest locationRequest){
+        this.name=locationRequest.getName();
+        this.area=locationRequest.getArea();
+        this.street=locationRequest.getStreet();
+        this.city=locationRequest.getCity();
+        this.country=locationRequest.getCountry();
+        this.active=true;
+    }
+
 
 }

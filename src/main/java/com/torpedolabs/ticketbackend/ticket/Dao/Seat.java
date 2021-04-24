@@ -1,5 +1,6 @@
 package com.torpedolabs.ticketbackend.ticket.Dao;
 
+import com.torpedolabs.ticketbackend.ticket.Model.Request.SeatRequest;
 import com.torpedolabs.ticketbackend.ticket.Utility.ProcessStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,8 @@ public class Seat implements Serializable {
     private String name;
     private String description;
     private ProcessStatus status;
-
+    private Long fare;
+    private boolean active;
     @UpdateTimestamp
     private Timestamp lastUpdatedStamp;
     @UpdateTimestamp
@@ -33,4 +35,12 @@ public class Seat implements Serializable {
     private Timestamp createdStamp;
     @CreationTimestamp
     private Timestamp createdTxStamp;
+
+    public Seat(SeatRequest seatRequest){
+        this.name=seatRequest.getName();
+        this.description=seatRequest.getDescription();
+        this.status= ProcessStatus.OPEN.getProcessStatus(seatRequest.getStatus());
+        this.fare= seatRequest.getFare();
+        this.active= true;
+    }
 }

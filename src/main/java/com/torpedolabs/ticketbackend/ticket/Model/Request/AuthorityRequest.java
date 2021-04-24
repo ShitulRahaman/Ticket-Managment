@@ -1,17 +1,15 @@
 package com.torpedolabs.ticketbackend.ticket.Model.Request;
 
-
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
+import javax.persistence.Column;
 
 @Getter
 @Setter
-@ToString
-public class TicketTypeRequest {
+@NoArgsConstructor
+public class AuthorityRequest {
     private Long id;
     private String name;
-    private Integer program;
-    private String description;
-    private boolean active;
 }
