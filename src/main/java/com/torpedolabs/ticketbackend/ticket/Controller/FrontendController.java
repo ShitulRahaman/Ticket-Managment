@@ -25,21 +25,21 @@ public class FrontendController {
 
     @GetMapping("/create_arrangement")
     public String GetCreateUser() {
-        return "admin/CreateUser.html";
+        return "admin/CreateArrangement.html";
     }
 
     @GetMapping("/create_ticket_type")
     public String GetUserShop() {
-        return "admin/CreateShop.html";
+        return "admin/CreateTicketType.html";
     }
 
     @GetMapping("/create_location")
     public String GetShopItem() {
-        return "admin/CreateItem.html";
+        return "admin/CreateLocation.html";
     }
     @GetMapping("/create_ticket")
     public String GetTicket() {
-        return "admin/CreateItem.html";
+        return "admin/CreateLocation.html";
     }
 
     @GetMapping("/user_list")

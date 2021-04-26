@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                   .antMatchers(HttpMethod.GET, "/")
                 //.antMatchers(HttpMethod.OPTIONS,"//**")
-                .antMatchers("/login","/dashboard","/food_user","/item_list","/shop_list","/user_list","/dashboard","/create_user","/create_shop","/create_item")
+                .antMatchers("/login","/dashboard","/create_ticket_type","/create_location","/create_arrangement","/user_list","/dashboard","/create_user","/create_shop","/create_item")
                 // allow anonymous resource requests
                 .antMatchers(
                         //     "/**",
