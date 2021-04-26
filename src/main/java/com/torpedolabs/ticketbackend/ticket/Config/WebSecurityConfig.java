@@ -3,8 +3,10 @@ package com.torpedolabs.ticketbackend.ticket.Config;
 import com.torpedolabs.ticketbackend.ticket.Config.jwt.JWTConfigurer;
 import com.torpedolabs.ticketbackend.ticket.Config.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -42,8 +44,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // Configure paths and requests that should be ignored by Spring Security ================================
+/**** That Only For Run Htlm as Other Fornt End Server Other hand it host for Other server *****/
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                  .antMatchers(HttpMethod.GET, "/")
+                //.antMatchers(HttpMethod.OPTIONS,"//**")
+                .antMatchers("/login","/dashboard","/food_user","/item_list","/shop_list","/user_list","/dashboard","/create_user","/create_shop","/create_item")
+                // allow anonymous resource requests
+                .antMatchers(
+                        //     "/**",
+                        "/*.html",
+                        "/downloadFile/**",
 
-
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.scss",
+                        "/**/*.js",
+                        "/css/**",
+                        "/demo/**",
+                        "/img/**",
+                        "/js/**",
+                        "/scss/**"//,  "/example/**"
+                );
+    }
+    /**** End *****/
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

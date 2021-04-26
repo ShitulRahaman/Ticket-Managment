@@ -20,7 +20,7 @@ public class Authority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", length = 50)
+    @Column(name = "name", length = 50)
     private String name;
 
     @JsonIgnore
@@ -29,5 +29,8 @@ public class Authority {
 
     public  Authority(AuthorityRequest authorityRequest){
         this.name=authorityRequest.getName();
+    }
+    public  Authority(String name){
+        this.name=name;
     }
 }
