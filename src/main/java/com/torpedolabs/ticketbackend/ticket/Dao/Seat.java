@@ -39,7 +39,7 @@ public class Seat implements Serializable {
     public Seat(SeatRequest seatRequest){
         this.name=seatRequest.getName();
         this.description=seatRequest.getDescription();
-        this.status= ProcessStatus.OPEN.getProcessStatus(seatRequest.getStatus());
+        this.status= ProcessStatus.OPEN;
         this.fare= seatRequest.getFare();
         this.active= true;
     }

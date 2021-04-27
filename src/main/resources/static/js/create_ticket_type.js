@@ -27,11 +27,11 @@ $("#create-ticket-type-form").submit(function (event) {
         return;
     }
     console.log(JSON.stringify(formData));
-    SaveShop(formData);
+    SaveTicketType(formData);
 });
 
 
-function SaveShop(formData) {
+function SaveTicketType(formData) {
     $.ajax({
         url: "/api/ticketType",
         type: "POST",

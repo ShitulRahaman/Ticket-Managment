@@ -3,6 +3,7 @@ package com.torpedolabs.ticketbackend.ticket.Dao;
 
 import com.torpedolabs.ticketbackend.ticket.Model.Request.TicketRequest;
 import com.torpedolabs.ticketbackend.ticket.Utility.ProcessStatus;
+import com.torpedolabs.ticketbackend.ticket.Utility.RandomString;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,6 +23,7 @@ public class Ticket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String serial;
     private String comment;
     private ProcessStatus status;
@@ -35,8 +37,8 @@ public class Ticket implements Serializable {
     private Arrangement arrangement;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "buyer_id", referencedColumnName = "id")
+    private Buyer buyer;
 
     @UpdateTimestamp
     private Timestamp lastUpdatedStamp;
@@ -49,7 +51,7 @@ public class Ticket implements Serializable {
 
 
     public Ticket(TicketRequest ticketRequest){
-        this.serial=ticketRequest.getSerial();
+        this.serial= RandomString.SerialNumber();
         this.comment=ticketRequest.getComment();
         this.status=ProcessStatus.SOLD;
         this.totalFare=ticketRequest.getTotalFare();

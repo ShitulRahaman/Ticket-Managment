@@ -42,11 +42,11 @@ public class FrontendController {
         return "admin/CreateLocation.html";
     }
 
-    @GetMapping("/user_list")
-    public String GetUserList() { return "admin/UserList.html"; }
+    @GetMapping("/create_user")
+    public String GetUserList() { return "admin/CreateUser.html"; }
 
-    @GetMapping("/shop_list")
-    public String GetShopList() { return "admin/ShopList.html"; }
+    @GetMapping("/refund")
+    public String GetRefund() { return "TicketRefund.html"; }
 
     @GetMapping("/item_list")
     public String GetItemList() {

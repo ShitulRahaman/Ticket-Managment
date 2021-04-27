@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                   .antMatchers(HttpMethod.GET, "/")
                 //.antMatchers(HttpMethod.OPTIONS,"//**")
-                .antMatchers("/login","/dashboard","/create_ticket_type","/create_location","/create_arrangement","/user_list","/dashboard","/create_user","/create_shop","/create_item")
+                .antMatchers("/login","/dashboard","/create_ticket_type","/create_location","/create_arrangement","/create_user","/dashboard","/create_user","/refund","/create_item")
                 // allow anonymous resource requests
                 .antMatchers(
                         //     "/**",
@@ -97,6 +97,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/user/signUp").permitAll()
+                .antMatchers("/api/ticket/searchTicketBy").permitAll()
+                .antMatchers("/api/ticket").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/ticketType").permitAll()
                 .antMatchers("/api/hiddenmessage").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
 

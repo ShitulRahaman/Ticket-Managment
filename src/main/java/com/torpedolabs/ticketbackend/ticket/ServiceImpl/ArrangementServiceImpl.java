@@ -5,6 +5,8 @@ import com.torpedolabs.ticketbackend.ticket.Dao.Location;
 import com.torpedolabs.ticketbackend.ticket.Dao.Seat;
 import com.torpedolabs.ticketbackend.ticket.Dao.TicketType;
 import com.torpedolabs.ticketbackend.ticket.Model.Request.ArrangementRequest;
+import com.torpedolabs.ticketbackend.ticket.Model.Request.SearchTicketForBuyRequest;
+import com.torpedolabs.ticketbackend.ticket.Model.Request.SeatRequest;
 import com.torpedolabs.ticketbackend.ticket.Model.ResponseMessage;
 import com.torpedolabs.ticketbackend.ticket.Repository.*;
 import com.torpedolabs.ticketbackend.ticket.Service.ArrangementService;
@@ -16,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Transactional
 @Service
@@ -53,8 +52,8 @@ public class ArrangementServiceImpl implements ArrangementService {
 
         //Set Ticket Seat
         Set<Seat> seats = new HashSet<Seat>();
-        for (Long seatId : arrangementRequest.getSeats()) {
-            seatRepository.findById(seatId).ifPresent(seat -> seats.add(seat));
+        for (SeatRequest seatRequest : arrangementRequest.getSeats()) {
+            seats.add(seatRepository.save(new Seat(seatRequest)));
         }
         arrangement.setSeats(seats);
 
@@ -93,8 +92,8 @@ public class ArrangementServiceImpl implements ArrangementService {
 
                 //Update Ticket Seat
                 Set<Seat> seats = new HashSet<Seat>();
-                for (Long seatId : arrangementRequest.getSeats()) {
-                    seatRepository.findById(seatId).ifPresent(seat -> seats.add(seat));
+                for (SeatRequest seatRequest : arrangementRequest.getSeats()) {
+                    seatRepository.findById(seatRequest.getId()).ifPresent(seat -> seats.add(seat));
                 }
                 arrangement.setSeats(seats);
 
@@ -131,5 +130,24 @@ public class ArrangementServiceImpl implements ArrangementService {
     @Override
     public ResponseEntity<?> Gets() {
         return ResponseEntity.ok(arrangementRepository.findAll());
+    }
+
+    @Override
+    public ResponseEntity<?> Count() {
+        return ResponseEntity.ok(arrangementRepository.count());
+    }
+
+    @Override
+    public ResponseEntity<?> FindByTicketType(Long ticketTypeId) {
+        List<Arrangement> arrangements=new ArrayList<>();
+            ticketTypeRepository.findById(ticketTypeId).ifPresent(ticketType -> {
+                arrangements.addAll( arrangementRepository.findByType(ticketType));
+            });
+         return ResponseEntity.ok(arrangements);
+    }
+
+    @Override
+    public ResponseEntity<?> FindByStartTime(LocalDateTime localDateTime) {
+        return  ResponseEntity.ok(arrangementRepository.findByStartDateTimeAfter(localDateTime));
     }
 }

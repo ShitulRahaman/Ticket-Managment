@@ -1,22 +1,22 @@
 package com.torpedolabs.ticketbackend.ticket.ServiceImpl;
 
-import com.torpedolabs.ticketbackend.ticket.Dao.Arrangement;
-import com.torpedolabs.ticketbackend.ticket.Dao.Seat;
-import com.torpedolabs.ticketbackend.ticket.Dao.Ticket;
+import com.torpedolabs.ticketbackend.ticket.Dao.*;
+import com.torpedolabs.ticketbackend.ticket.Model.Request.SearchTicketForBuyRequest;
 import com.torpedolabs.ticketbackend.ticket.Model.Request.TicketRequest;
 import com.torpedolabs.ticketbackend.ticket.Model.ResponseMessage;
-import com.torpedolabs.ticketbackend.ticket.Repository.ArrangementRepository;
-import com.torpedolabs.ticketbackend.ticket.Repository.SeatRepository;
-import com.torpedolabs.ticketbackend.ticket.Repository.TicketRepository;
-import com.torpedolabs.ticketbackend.ticket.Repository.UserRepository;
+import com.torpedolabs.ticketbackend.ticket.Repository.*;
 import com.torpedolabs.ticketbackend.ticket.Service.TicketService;
+import com.torpedolabs.ticketbackend.ticket.Utility.LocalDateTimeConverter;
 import com.torpedolabs.ticketbackend.ticket.Utility.ProcessStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -33,7 +33,10 @@ public class TicketServiceImpl implements TicketService {
     ArrangementRepository arrangementRepository;
 
     @Autowired
-    UserRepository userRepository;
+    BuyerRepository buyerRepository;
+
+    @Autowired
+    TicketTypeRepository ticketTypeRepository;
 
 
     @Override
@@ -42,24 +45,26 @@ public class TicketServiceImpl implements TicketService {
 
         //Set Arrangement
         arrangementRepository.findById(ticketRequest.getArrangement()).ifPresent(arrangement -> ticket.setArrangement(arrangement));
-        //Set User
-        userRepository.findById(ticketRequest.getUser()).ifPresent(user -> ticket.setUser(user));
+        //Set buyer
+
+        ticket.setBuyer(buyerRepository.save(new Buyer(ticketRequest.getBuyerRequest())));
         //Set Ticket Seat
         Set<Seat> seats = new HashSet<Seat>();
         for (Long seatId : ticketRequest.getSeats()) {
             seatRepository.findById(seatId).ifPresent(seat -> {
+                seat.setStatus(ProcessStatus.SOLD);
                 seats.add(seat);
-                ticket.setTotalFare(ticket.getTotalFare()+seat.getFare());
+                seatRepository.save(seat);
             });
         }
         ticket.setSeats(seats);
-
+        ticketRepository.save(ticket);
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<?> Update(TicketRequest ticketRequest) {
-        ResponseMessage responseMessage=new ResponseMessage("Update","Ticket Not Found");
+        ResponseMessage responseMessage = new ResponseMessage("Update", "Ticket Not Found");
         ticketRepository.findById(ticketRequest.getId()).ifPresent(ticket -> {
             ticket.setSerial(ticketRequest.getSerial());
             ticket.setComment(ticketRequest.getComment());
@@ -67,7 +72,7 @@ public class TicketServiceImpl implements TicketService {
             //Set Arrangement
             arrangementRepository.findById(ticketRequest.getArrangement()).ifPresent(arrangement -> ticket.setArrangement(arrangement));
             //Set User
-            userRepository.findById(ticketRequest.getUser()).ifPresent(user -> ticket.setUser(user));
+            buyerRepository.findById(ticketRequest.getBuyerRequest().getId()).ifPresent(buyer -> ticket.setBuyer(buyer));
             //Set Ticket Seat
             Set<Seat> seats = new HashSet<Seat>();
             for (Long seatId : ticketRequest.getSeats()) {
@@ -101,10 +106,10 @@ public class TicketServiceImpl implements TicketService {
         for (Ticket ticket : ticketRepository.findByArrangement(arrangement)) {
             ticket.setStatus(ProcessStatus.REFUND);
             //Open Sold Or Booking Seat
-            for(Seat ticketSeat : ticket.getSeats()){
+            for (Seat ticketSeat : ticket.getSeats()) {
                 ticketSeat.setStatus(ProcessStatus.OPEN);
                 seatRepository.save(ticketSeat);
-                ticket.setTotalFare(ticket.getTotalFare()-ticketSeat.getFare());
+                ticket.setTotalFare(ticket.getTotalFare() - ticketSeat.getFare());
                 ticket.getSeats().remove(ticketSeat);
             }
             ticketRepository.save(ticket);
@@ -112,31 +117,73 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void TicketRefund(Long id) {
+    public  ResponseEntity<?>  TicketRefund(Long id) {
         ticketRepository.findById(id).ifPresent(ticket -> {
             ticket.setStatus(ProcessStatus.REFUND);
             //Open Sold Or Booking Seat
-            for(Seat Seat : ticket.getSeats()){
+            for (Seat Seat : ticket.getSeats()) {
                 Seat.setStatus(ProcessStatus.OPEN);
                 seatRepository.save(Seat);
-                ticket.setTotalFare(ticket.getTotalFare()-Seat.getFare());
+                ticket.setTotalFare(ticket.getTotalFare() - Seat.getFare());
                 ticket.getSeats().remove(Seat);
             }
-
-
+            ticket.setStatus(ProcessStatus.REFUND);
+            ticketRepository.save(ticket);
         });
+        return ResponseEntity.ok().build();
     }
 
     @Override
-    public void SeatRefund(Long ticketId,Long seatId) {
-       // ticketId
+    public  ResponseEntity<?> SeatRefund(Long ticketId, Long seatId) {
+        // ticketId
         seatRepository.findById(seatId).ifPresent(seat -> {
             seat.setStatus(ProcessStatus.OPEN);
             seatRepository.save(seat);
             ticketRepository.findById(ticketId).ifPresent(ticket -> {
                 ticket.getSeats().remove(seat);
-                ticket.setTotalFare(ticket.getTotalFare()-seat.getFare());
+                ticket.setTotalFare(ticket.getTotalFare() - seat.getFare());
             });
         });
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<?> TicketSearchForBuy(SearchTicketForBuyRequest searchTicketForBuyRequest) {
+        List<Arrangement> arrangements = new ArrayList<>();
+        ticketTypeRepository.findById(searchTicketForBuyRequest.getTicketType()).ifPresent(ticketType -> {
+            arrangements.addAll(arrangementRepository.findByTypeAndStartDateTimeAfter(ticketType, LocalDateTimeConverter.DateTime(searchTicketForBuyRequest.getDateTime())));
+        });
+        return ResponseEntity.ok(arrangements);
+    }
+
+    @Override
+    public ResponseEntity<?> TicketSearchByBuyerPhone() {
+
+        return ResponseEntity.ok(ticketRepository.findByStatus(ProcessStatus.SOLD));
+    }
+
+    @Override
+    public ResponseEntity<?> TicketTotalSale() {
+        return  ResponseEntity.ok(ticketRepository.SumTotalTicketSell(ProcessStatus.SOLD));
+    }
+
+    @Override
+    public ResponseEntity<?> TicketSoldCount() {
+        return ResponseEntity.ok(ticketRepository.countAllByStatus(ProcessStatus.SOLD));
+    }
+
+    @Override
+    public ResponseEntity<?> TicketCount() {
+        return  ResponseEntity.ok(ticketRepository.count());
+    }
+
+    @Override
+    public ResponseEntity<?> TicketRefundCount() {
+        return ResponseEntity.ok(ticketRepository.countAllByStatus(ProcessStatus.REFUND));
+    }
+
+    @Override
+    public ResponseEntity<?> FoundTicket(ProcessStatus status) {
+        return  ResponseEntity.ok(ticketRepository.findByStatus(status));
     }
 }

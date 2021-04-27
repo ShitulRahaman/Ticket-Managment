@@ -1,5 +1,6 @@
 package com.torpedolabs.ticketbackend.ticket.Model.Request;
 
+import com.torpedolabs.ticketbackend.ticket.Dao.Buyer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,5 +18,5 @@ public class TicketRequest {
     private Long totalFare;
     private List<Long> seats;
     private Long arrangement;
-    private Long user;
+    private BuyerRequest buyerRequest;
 }

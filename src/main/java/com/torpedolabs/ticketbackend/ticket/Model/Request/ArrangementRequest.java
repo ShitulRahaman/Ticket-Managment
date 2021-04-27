@@ -19,6 +19,6 @@ public class ArrangementRequest {
     private String endDateTime;
     private Long type;
     private List<Long> locations;
-    private List<Long> seats;
+    private List<SeatRequest> seats;
     private boolean active;
 }

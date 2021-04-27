@@ -28,7 +28,6 @@ public class Arrangement implements Serializable {
     private String name;
     private String description;
     private Integer totalSeats;
-    private Long fare;
     private LocalDateTime reportingDateTime;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
