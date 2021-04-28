@@ -46,9 +46,9 @@ function searchTicket(formData) {
            // notification("User Save SuccessFully", 3);
             console.log(data);
             console.log(data.length);
-
+            arrangements=[];
             arrangements=data;
-            TicketShow();
+            TicketShow(data);
             //sessionStorage.setItem('token', data.id_token);
             //window.location.replace("../"+data.url);
 
@@ -67,8 +67,10 @@ function searchTicket(formData) {
     });
 }
 
-function TicketShow(){
-    arrangements.forEach(function (item, index) {
+function TicketShow(data){
+    data.forEach(function (item, index) {
+        $('#arrangmentList tr').remove();
+        console.log("Tr cal")
        var reporting= new Date(item.reportingDateTime);
        var start= new Date(item.startDateTime);
        var end= new Date(item.endDateTime);
@@ -115,6 +117,7 @@ function selectArrangment(row) {
     var arrangement= findArrangementObject(arrangements,id);
     arrangementSelected=id;
     $("#seatList").parents("tr").remove();
+    $('#seatList tr').remove();
     seats=arrangement.seats;
     var availableSeat=0;
     arrangement.seats.forEach(function (item, index) {

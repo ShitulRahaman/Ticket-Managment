@@ -40,7 +40,7 @@ function SaveUser(formData) {
         success: function (data, textStatus, jqXHR) {
             notification("User Save SuccessFully", 3);
             //sessionStorage.setItem('token', data.id_token);
-            //window.location.replace("../"+data.url);
+            window.location.replace("../create_user");
 
         },
         error: function (jqXHR, textStatus, errorThrown) {

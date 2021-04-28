@@ -3,6 +3,7 @@ var totalTicket = document.getElementById("totalTicket");
 var totalArrangement = document.getElementById("totalArrangement");
 var totalSoldTicket = document.getElementById("totalSoldTicket");
 var totalRefundTicket = document.getElementById("totalRefundTicket");
+var satatusSelected = document.getElementById("ticketType");
 $(document).ready(function () {
     $("#nav-placeholder").load("navbar.html");
     findTotalSale();
@@ -100,6 +101,22 @@ function findALLTicket() {
         success: function (data) {
             console.log(data);
             console.log("ticket");
+            data.forEach(myFunction);
+            function myFunction(item, index) {
+                $("#ticket").append(' <tr id="' + item.id + '">\n' +
+                    '                          <td >\n' +
+                    '                            ' + item.serial + '\n' +
+                    '                          </td>\n' +
+                    '                          <td>\n' +
+                    '                            ' + item.totalFare + '\n' +
+                    '                          </td>\n' +
+                    '                          <td>\n' +
+                    '                            ' + item.status + '\n' +
+                    '                          </td>\n' +
+
+
+                    '                        </tr>');
+            }
         }
     });
 }
@@ -122,11 +139,23 @@ function findTotalArrangementCount() {
         }
     });
 }
+$("#ticket-find-form").submit(function (event) {
+    event.preventDefault();
+
+
+
+    var formData = {
+        status: parseFloat(satatusSelected.options[satatusSelected.selectedIndex].value)
+    };
+
+    console.log(formData);
+    searchTicket(formData);
+});
 
 function searchTicket(formData) {
 
     $.ajax({
-        url: "/api/ticket/searchTicketBy",
+        url: "/api/ticket/searchTicketByStatus",
         type: "POST",
         data: JSON.stringify(formData),
         contentType: "application/json; charset=utf-8",
@@ -138,11 +167,24 @@ function searchTicket(formData) {
             // notification("User Save SuccessFully", 3);
             console.log(data);
             console.log(data.length);
+            //$("#ticket").parents("tr").remove();
+            $('#ticket tr').remove();
+            data.forEach(myFunction);
+            function myFunction(item, index) {
+                $("#ticket").append(' <tr id="' + item.id + '">\n' +
+                    '                          <td >\n' +
+                    '                            ' + item.serial + '\n' +
+                    '                          </td>\n' +
+                    '                          <td>\n' +
+                    '                            ' + item.totalFare + '\n' +
+                    '                          </td>\n' +
+                    '                          <td>\n' +
+                    '                            ' + item.status + '\n' +
+                    '                          </td>\n' +
 
-            arrangements = data;
-            TicketShow();
-            //sessionStorage.setItem('token', data.id_token);
-            //window.location.replace("../"+data.url);
+
+                    '                        </tr>');
+            }
 
         },
         error: function (jqXHR, textStatus, errorThrown) {

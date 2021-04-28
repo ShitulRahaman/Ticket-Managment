@@ -18,7 +18,7 @@ The above copyright notice and this permission notice shall be included in all c
   <link rel="icon" type="image/png" href="../img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    DashBoard
+    Arrangement List
   </title>
   <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -32,152 +32,79 @@ The above copyright notice and this permission notice shall be included in all c
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white" data-image="../img/sidebar-1.jpg">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+     <div class="sidebar" data-color="purple" data-background-color="white" data-image="../img/sidebar-1.jpg">
+        <!--
+          Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-        Tip 2: you can also add an image using data-image tag
-    -->
-      <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+          Tip 2: you can also add an image using data-image tag
+      -->
+        <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
+           Creative Tim
         </a></div>
-      <div id="nav-placeholder" class="sidebar-wrapper">
+        <div id="nav-placeholder" class="sidebar-wrapper">
 
-      </div>
-    </div>
+        </div>
+     </div>
     <div class="main-panel">
       <!-- Navbar -->
+       <nav id="top_bar" class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 
-
-      </nav>
+       </nav>
       <!-- End Navbar -->
       <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">Total Sale</p>
-                  <h3 id="totalSale" class="card-title">
-                    <small>TK</small>
-                  </h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">date_range</i> Life Time
-                  </div>
-                </div>
-              </div>
-              </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">store</i>
-                  </div>
-                  <p class="card-category">Total Ticket</p>
-                  <h3 id="totalTicket" class="card-title"></h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">date_range</i> Sold and UnSold Full Ticket
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">info_outline</i>
-                  </div>
-                  <p class="card-category">Total Arrangement</p>
-                  <h3 id="totalArrangement" class="card-title"></h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">local_offer</i> Total Arrangement
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Total Sold Ticket</p>
-                  <h3 id="totalSoldTicket" class="card-title"></h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3">
-              <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                  <div class="card-icon">
-                    <i class="fa fa-twitter"></i>
-                  </div>
-                  <p class="card-category">Total Refund Ticket</p>
-                  <h3 id="totalRefundTicket" class="card-title"></h3>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">update</i> Just Updated
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-
-          </div>
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Ticket</h4>
+                  <h4 class="card-title ">Arrangement List</h4>
+                  <p class="card-category"> Arrangement Details</p>
                 </div>
                 <div class="card-body">
-                  <form id="ticket-find-form">
+                  <form id="arrangement-find-form">
 
                     <div class="row">
                       <div class="col-md-3">
                         <div class="form-group">
-                          <label class="bmd-label-floating">Status</label>
+                          <label class="bmd-label-floating">Ticket Type</label>
                           <select class="form-control" id="ticketType">
-                            <option class="form-control" value=3>SOLD</option>
-                            <option class="form-control" value=4>REFUND</option>
                           </select>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary pull-right">Search Ticket</button>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Location </label>
+                          <input type="datetime-local" class="form-control" required name="date">
 
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary pull-right">Search Arrangement</button>
                     </div>
 
                   </form>
                   <div class="table-responsive">
-                    <table id="locationTable" class="table">
+                    <table  class="table">
                       <thead class=" text-primary">
                       <th>
-                        Serial
+                        Name
                       </th>
                       <th>
-                        Total Fare
+                        Report Time
                       </th>
                       <th>
-                        Status
+                        Start Time
+                      </th>
+                      <th>
+                        End Time
+                      </th>
+                      <th>
+                        Location
+                      </th>
+                      <th>
+                        Destination
                       </th>
                       </thead>
-                      <tbody id="ticket">
+                      <tbody id="arrangmentList">
 
                       </tbody>
                     </table>
@@ -187,7 +114,6 @@ The above copyright notice and this permission notice shall be included in all c
             </div>
 
           </div>
-        </div>
         </div>
       </div>
       <footer class="footer">
@@ -272,6 +198,7 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../demo/demo.js"></script>
 
+  <script src="../js/arrangement_list.js"></script>
 </body>
-<script src="../js/dashboard.js"></script>
+
 </html>

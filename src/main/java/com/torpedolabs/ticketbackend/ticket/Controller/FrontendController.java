@@ -48,29 +48,11 @@ public class FrontendController {
     @GetMapping("/refund")
     public String GetRefund() { return "TicketRefund.html"; }
 
-    @GetMapping("/item_list")
-    public String GetItemList() {
-        return "admin/ItemList.html";
+    @GetMapping("/arrangementList")
+    public String GetArrangemntList() {
+        return "admin/ArrangementList.html";
     }
 
-    @GetMapping("/food_user")
-    public String GetFoodUserList() {
-        return "admin/FoodUserList.html";
-    }
 
-    @GetMapping("/food_oder")
-    public String FoodOderList() {
-        return "admin/OderList.html";
-    }
-
-    @GetMapping("/oder_item_list")
-    public String OderItemList() {
-        return "admin/OderItemList.html";
-    }
-
-    @GetMapping("/maps")
-    public String getPerson9() {
-        return "example/maps.html";
-    }
 
 }

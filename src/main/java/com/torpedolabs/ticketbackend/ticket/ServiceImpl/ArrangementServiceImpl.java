@@ -150,4 +150,13 @@ public class ArrangementServiceImpl implements ArrangementService {
     public ResponseEntity<?> FindByStartTime(LocalDateTime localDateTime) {
         return  ResponseEntity.ok(arrangementRepository.findByStartDateTimeAfter(localDateTime));
     }
+
+    @Override
+    public ResponseEntity<?> FindBySearch(SearchTicketForBuyRequest searchTicketForBuyRequest) {
+        List<Arrangement> arrangements = new ArrayList<>();
+        ticketTypeRepository.findById(searchTicketForBuyRequest.getTicketType()).ifPresent(ticketType -> {
+            arrangements.addAll(arrangementRepository.findByTypeAndStartDateTimeAfter(ticketType, LocalDateTimeConverter.DateTime(searchTicketForBuyRequest.getDateTime())));
+        });
+        return ResponseEntity.ok(arrangements);
+    }
 }

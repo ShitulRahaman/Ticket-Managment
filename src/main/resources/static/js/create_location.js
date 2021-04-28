@@ -39,7 +39,7 @@ function SaveLocation(formData) {
             notification("Location Save SuccessFully", 3);
             //sessionStorage.setItem('token', data.id_token);
             //window.location.replace("../"+data.url);
-
+            window.location.replace("../create_location");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401) {

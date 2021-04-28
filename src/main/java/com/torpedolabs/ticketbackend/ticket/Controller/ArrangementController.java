@@ -24,7 +24,7 @@ public class ArrangementController {
 
     @GetMapping
     public ResponseEntity<?> Gets() {
-        return ResponseEntity.ok(arrangementService.Gets());
+        return arrangementService.Gets();
     }
 
     @GetMapping("/{id}")
@@ -47,10 +47,18 @@ public class ArrangementController {
         return arrangementService.FindByTicketType(searchTicketForBuyRequest.getTicketType());
     }
 
-    @PostMapping("/findByStartTime")
+    @PostMapping("/search")
     public ResponseEntity<?> FindByTime(@RequestBody SearchTicketForBuyRequest searchTicketForBuyRequest) {
-        return arrangementService.FindByStartTime(LocalDateTimeConverter.DateTime(searchTicketForBuyRequest.getDateTime()));
+        if (searchTicketForBuyRequest.getTicketType() != null && !searchTicketForBuyRequest.getDateTime().isEmpty())
+            return arrangementService.FindBySearch(searchTicketForBuyRequest);
+        else if (searchTicketForBuyRequest.getTicketType() != null)
+            return arrangementService.FindByTicketType(searchTicketForBuyRequest.getTicketType());
+        else if (!searchTicketForBuyRequest.getDateTime().isEmpty())
+            return arrangementService.FindByStartTime(LocalDateTimeConverter.DateTime(searchTicketForBuyRequest.getDateTime()));
+        else
+           return arrangementService.Gets();
     }
+
     @GetMapping("/count")
     public ResponseEntity<?> Count() {
         return arrangementService.Count();

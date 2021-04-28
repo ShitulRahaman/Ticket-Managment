@@ -43,6 +43,7 @@ function SaveTicketType(formData) {
         },
         success: function (data, textStatus, jqXHR) {
             notification("Ticket Type Save SuccessFully", 3);
+            window.location.replace("../create_ticket_type");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status === 401) {

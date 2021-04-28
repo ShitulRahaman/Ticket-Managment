@@ -23,7 +23,7 @@ public class Ticket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String serial;
     private String comment;
     private ProcessStatus status;
