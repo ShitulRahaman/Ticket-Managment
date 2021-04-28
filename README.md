@@ -11,3 +11,8 @@ User name: admin
 
 Password : 123
 
+Backend server : Spring boot rest (JAVA)
+
+Database : MySQL
+
+Frontend WEB application : HTML, CSS, JAVAscript
